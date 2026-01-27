@@ -40,6 +40,16 @@ public class Rules {
         System.out.println("- Maior ou menor: -15 pontos");
         System.out.println("- Metade do intervalo: -20 pontos\n");
 
+        System.out.println("MODO SEQUÊNCIA:");
+        System.out.println("-------------------------------------");
+        System.out.println("- Em vez de um único número, o jogador");
+        System.out.println("  deve adivinhar uma SEQUÊNCIA de 3 números");
+        System.out.println("- Exemplo de sequência: [5, 8, 2]");
+        System.out.println("- O jogador deve acertar cada número");
+        System.out.println("  da sequência na ordem correta");
+        System.out.println("- As tentativas e a pontuação seguem");
+        System.out.println("  o nível de dificuldade escolhido\n");
+
         System.out.println("HISTÓRICO DE PONTUAÇÕES:");
         System.out.println("-------------------------------------");
         System.out.println("- Armazena as 10 últimas pontuações");
@@ -49,7 +59,7 @@ public class Rules {
         System.out.println("-------------------------------------");
         System.out.println("- Apenas números dentro do intervalo");
         System.out.println("- Entradas inválidas não contam tentativa");
-        System.out.println("- O jogo termina ao acertar o número");
+        System.out.println("- O jogo termina ao acertar o objetivo");
         System.out.println("  ou ao acabar as tentativas\n");
 
         System.out.println("Boa sorte e divirta-se!");

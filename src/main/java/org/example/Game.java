@@ -6,30 +6,33 @@ import java.util.Scanner;
 
 public class Game {
     static Scanner scanner = new Scanner(System.in);
+    static ArrayList<String> scores = new ArrayList<>();
 
    public static void selectLevel(){
        //1º Máximo de números | 2º Máximo de tentativas | 3º Pontuação base
        int[] easy = {50, 10, 100};
        int[] medium = {100, 7, 200};
        int[] hard = {200, 5, 300};
-       String[] levels = {"Fácil", "Médio", "Difícil"};
+       int[] sequence = {20, 5, 500};
+       String[] levels = {"Fácil", "Médio", "Difícil", "Modo Sequência"};
        int level = 0;
 
-       while (level !=4){
+       while (level !=5){
             System.out.println("Selecione um nível");
             System.out.println("----------------------");
-            System.out.print("1 - Fácil \n2 - Médio \n3 - Difícil \n4 - Voltar\n");
+            System.out.print("1 - Fácil \n2 - Médio \n3 - Difícil \n4 - Modo de Sequência\n5 - Voltar\n");
             level = scanner.nextInt();
 
             switch (level){
                 case 1 -> play(easy, levels[0]);
                 case 2 -> play(medium, levels[1]);
                 case 3 -> play(hard, levels[2]);
+                case 4 -> sequenceMode(sequence, levels[3]);
                 default -> System.out.println("Opção inválida! ");
             }
        }
    }
-   static ArrayList<String> scores = new ArrayList<>();
+
    public static void play(int[] level, String levelName) {
 
        Random random = new Random();
@@ -63,7 +66,6 @@ public class Game {
            } else {
                System.out.println("Não foi dessa vez, tente novamente!");
                score = score - (level[2]*0.1);
-               System.out.println(score);
                System.out.println("----------------------");
                int wantTip = 0;
 
@@ -146,6 +148,71 @@ public class Game {
         System.out.println("Pontuações");
         System.out.println("----------------------");
         System.out.println(scores);
+    }
+
+    public static void sequenceMode(int[] level, String levelName){
+        Random random = new Random();
+        ArrayList<Integer> sequence = new ArrayList<>();
+        ArrayList<Integer> guess = new ArrayList<>();
+        int hits = 0;
+
+        for (int i = 0; i < 3; i++){
+            sequence.add(random.nextInt(level[0]) + 1);
+        }
+
+        System.out.println("Em vez de um único número, você deve adivinhar uma SEQUÊNCIA de 3 números de 1 a " + level[0] + "." );
+        int num = 0;
+        double score = level[2];
+
+        for (int i = 1; i <= level[1]; i++){
+            System.out.println("Tentativa " + i + ":");
+            System.out.println("----------------------");
+
+            for (int a = 0; a < 3; a++){
+                System.out.println("Digite um número: ");
+                num = scanner.nextInt();
+                guess.add(num);
+
+                if (num > level[0] || num < 1){
+                    System.out.println("Número inválido!");
+                    a--;
+                }
+            }
+
+            for (int n : guess){
+                if (sequence.contains(n)){
+                    hits++;
+                }
+            }
+
+            if (hits == 0 || hits == 1 || hits == 2){
+                System.out.println("Você teve " + hits + " acertos, tente novamente!");
+                score = score - (level[2]*0.1);
+                System.out.println("----------------------");
+            } else {
+                if (i < level[1]){
+                    score = score + ((level[1] - i)* 50);
+                }
+
+                System.out.println("Parabéns, você adivinhou!!");
+                System.out.println("----------------------");
+                System.out.println("Sua pontuação foi de " + score + " pontos.");
+                break;
+            }
+        }
+
+        if (hits == 0 || hits == 1 || hits == 2){
+            System.out.println("Que pena, você não adivinhou, o número era: " + sequence);
+            System.out.println("----------------------");
+            System.out.println("Sua pontuação foi de " + score + " pontos.");
+            System.out.println("----------------------");
+        }
+
+        if (scores.size() < 10) {
+            scores.add(levelName + ": " + score);
+        } else {
+            System.out.println("Ranking cheio!");
+        }
     }
 }
 
