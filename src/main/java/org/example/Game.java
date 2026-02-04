@@ -7,6 +7,12 @@ import java.util.Scanner;
 public class Game {
     static Scanner scanner = new Scanner(System.in);
     static ArrayList<String> scores = new ArrayList<>();
+    static double score = 0;
+    static int level = 0;
+    static double recordEasy = 0;
+    static double recordMedium = 0;
+    static double recordHard = 0;
+    static double recordSequence = 0;
 
    public static void selectLevel(){
        //1º Máximo de números | 2º Máximo de tentativas | 3º Pontuação base
@@ -15,7 +21,7 @@ public class Game {
        int[] hard = {200, 5, 300};
        int[] sequence = {20, 5, 500};
        String[] levels = {"Fácil", "Médio", "Difícil", "Modo Sequência"};
-       int level = 0;
+       level = 0;
 
        while (level !=5){
             System.out.println("Selecione um nível");
@@ -28,6 +34,7 @@ public class Game {
                 case 2 -> play(medium, levels[1]);
                 case 3 -> play(hard, levels[2]);
                 case 4 -> sequenceMode(sequence, levels[3]);
+                case 5 -> System.out.println("Voltando...");
                 default -> System.out.println("Opção inválida! ");
             }
        }
@@ -40,7 +47,7 @@ public class Game {
        int randomNumber = random.nextInt(level[0]) + 1;
        System.out.println("Neste nível você terá que adivinhar um número de 1 a " + level[0] + "." );
        int num = 0;
-       double score = level[2];
+       score = level[2];
 
        for (int i = 1; i <= level[1]; i++){
            System.out.println("Tentativa " + i + " - Digite um número: ");
@@ -137,18 +144,25 @@ public class Game {
            System.out.println("----------------------");
        }
 
-       if (scores.size() < 10) {
-           scores.add(levelName + ": " + score);
-       } else {
-           System.out.println("Ranking cheio!");
-       }
+       score(levelName);
    }
 
     public static void ranking() {
-        System.out.println("Pontuações");
-        System.out.println("----------------------");
+        System.out.println("Histórico");
+        System.out.println("======================");
         System.out.println(scores);
-    }
+        System.out.println("======================");
+        System.out.println("Recordes");
+        System.out.println("======================");
+        System.out.println("Fácil - " + recordEasy);
+        System.out.println("----------------------");
+        System.out.println("Médio - "+ recordMedium);
+        System.out.println("----------------------");
+        System.out.println("Difícil - "+ recordHard);
+        System.out.println("----------------------");
+        System.out.println("Modo Sequência - "+ recordSequence);
+        System.out.println("======================");
+   }
 
     public static void sequenceMode(int[] level, String levelName){
         Random random = new Random();
@@ -162,7 +176,7 @@ public class Game {
 
         System.out.println("Em vez de um único número, você deve adivinhar uma SEQUÊNCIA de 3 números de 1 a " + level[0] + "." );
         int num = 0;
-        double score = level[2];
+        score = level[2];
 
         for (int i = 1; i <= level[1]; i++){
             System.out.println("Tentativa " + i + ":");
@@ -208,10 +222,37 @@ public class Game {
             System.out.println("----------------------");
         }
 
+       score(levelName);
+    }
+
+    public static void score(String levelName) {
         if (scores.size() < 10) {
             scores.add(levelName + ": " + score);
         } else {
             System.out.println("Ranking cheio!");
+        }
+
+        switch (levelName) {
+            case "Fácil" -> {
+                if (score > recordEasy) {
+                    recordEasy = score;
+                }
+            }
+            case "Médio" -> {
+                if (score > recordMedium) {
+                    recordMedium = score;
+                }
+            }
+            case "Difícil" -> {
+                if (score > recordHard) {
+                    recordHard = score;
+                }
+            }
+            case "Modo Sequência" -> {
+                if (score > recordSequence) {
+                    recordSequence = score;
+                }
+            }
         }
     }
 }
